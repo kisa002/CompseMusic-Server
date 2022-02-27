@@ -8,13 +8,14 @@ class GenieChartImpl : ChartRepository {
     override fun getChart100(): List<Song> {
         val document = Jsoup.connect("https://www.genie.co.kr/chart/top200").get()
 
-        val titles = document.select(".info .albumtitle").textNodes().map { it.text() }
-        val artists = document.select(".info .artist").textNodes().map { it.text() }
+        val titles = document.select(".title.ellipsis").textNodes().map { it.text().trim() }
+        val artists = document.select(".artist.ellipsis").textNodes().map { it.text() }
+        val thumbnails = document.select(".cover img").map { it.attr("src") }
 
-        val chart = titles.zip(artists) { title, artist ->
-            Song(title = title, artist = artist)
-        }
+        val chart = maxOf(titles.size, artists.size, thumbnails.size).downTo(1).filter { it < 50 }.map { index ->
+            Song(title = titles[index], artist = artists[index], thumbnail = thumbnails[index])
+        }.reversed()
 
-        return chart.take(100)
+        return chart
     }
 }
