@@ -136,3 +136,10 @@ buildNumber.properties
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,maven,intellij+all
+build/kotlin/compileKotlin/
+
+.gradle/7.4/fileHashes/
+
+.gradle/7.4/executionHistory/
+
+.gradle/buildOutputCleanup/
